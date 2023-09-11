@@ -9,9 +9,8 @@ function getComputerChoice() {
   return choices[getRandomInt()];
 }
 
-function playRound(score) {
-  playerSelection = window.prompt("Rock, Paper, Scissors");
-  computerSelection = getComputerChoice;
+function playRound(playerSelection, score) {
+  computerSelection = getComputerChoice();
   switch (playerSelection) {
     case "Rock":
       if (computerSelection == "Scissors") {
@@ -31,7 +30,7 @@ function playRound(score) {
         return score - 1;
       }
       break;
-    case "Scissor":
+    case "Scissors":
       if (computerSelection == "Scissors") {
         return score;
       } else if (computerSelection == "Paper") {
@@ -46,22 +45,47 @@ function playRound(score) {
   }
 }
 
-function getPlayerSelection() {
-  return prompt("Rock, Paper, Scissors");
-}
-
-function game() {
-  let count = 1;
-  let score = 0;
-  while (count < 5) {
-    score = playRound(score);
-    count++;
+function getPlayerClick(selection, score) {
+  if (score > 4) {
+    alert("You WON");
+  } else if (score < -4) {
+    alert("YOU LOST");
   }
-  if (score > 0) {
-    return "You Win";
-  } else {
-    return "You Lose";
-  }
+  playerSelection = selection;
+  score = playRound(playerSelection, score);
+  console.log(score);
+  return score;
 }
+const body = document.querySelector("body");
 
-console.log(game());
+let score = 0;
+
+let scoredoc = document.createElement("div");
+scoredoc.innerText = score;
+scoredoc.id = "scoredoc";
+
+body.appendChild(scoredoc);
+
+let rock = document.createElement("button");
+rock.textContent = "Rock";
+rock.addEventListener("click", (e) => {
+  score = getPlayerClick("Rock", score);
+  document.getElementById("scoredoc").innerHTML = score;
+});
+body.appendChild(rock);
+
+let paper = document.createElement("button");
+paper.textContent = "Paper";
+paper.addEventListener("click", (e) => {
+  score = getPlayerClick("Paper", score);
+  document.getElementById("scoredoc").innerHTML = score;
+});
+body.appendChild(paper);
+
+let scissor = document.createElement("button");
+scissor.textContent = "Scissor";
+scissor.addEventListener("click", (e) => {
+  score = getPlayerClick("Scissors", score);
+  document.getElementById("scoredoc").innerHTML = score;
+});
+body.appendChild(scissor);
